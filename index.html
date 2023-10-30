@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .container {
+            width: 50%;
+            margin: 0 auto;
+            margin-top: 50px;
+        }
+        #city {
+            padding: 8px;
+            width: 60%;
+            font-size: 16px;
+        }
+        #getWeatherBtn {
+            padding: 8px 20px;
+            font-size: 16px;
+        }
+        #weatherData {
+            margin-top: 20px;
+        }
+        #error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Weather App</h1>
+    <div class="container">
+        <label for="city">Enter City: </label>
+        <input type="text" id="city" placeholder="City">
+        <button id="getWeatherBtn">Get Weather</button>
+        <div id="weatherData"></div>
+        <div id="error"></div>
+    </div>
+    <script src="static/script.js"></script>
+</body>
+</html>
