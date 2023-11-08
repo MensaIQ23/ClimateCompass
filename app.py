@@ -1,4 +1,3 @@
-
 from flask import Flask, request, jsonify
 from geopy.geocoders import Nominatim
 
@@ -51,45 +50,45 @@ def index():
     <h1>Weather App</h1>
     <div class="container">
         <label for="city">Enter City: </label>
-...         <input type="text" id="city" placeholder="City">
-...         <button id="getWeatherBtn">Get Weather</button>
-...         <div id="weatherData"></div>
-...         <div id="error"></div>
-...     </div>
-...     <script src="static/script.js"></script>
-... </body>
-... </html>
-...     """
-... @app.route('/weather')
-... def get_weather():
-...     city = request.args.get('city')
-...     if not city:
-...         return jsonify({'error': 'City parameter is missing'})
-... 
-...     # Validate the city name using geopy
-...     geolocator = Nominatim(user_agent="weather_app")
-...     location = geolocator.geocode(city)
-...     if not location:
-...         return jsonify({'error': 'Invalid city name'})
-... 
-...     # Make a request to WeatherAPI.com
-...     response = requests.get(f'https://api.weatherapi.com/v1/current.json?key={API_KEY}&q={city}')
-... 
-...     if response.status_code != 200:
-...         return jsonify({'error': 'Failed to retrieve weather data'})
-... 
-...     data = response.json()
-... 
-...     if 'current' not in data or 'temp_c' not in data['current']:
-...         return jsonify({'error': 'No weather information found for the city'})
-... 
-...     # Extract relevant weather data
-...     weather_data = {
-...         'temperature': data['current']['temp_c'],
-...         'conditions': data['current']['condition']['text'],
-...         'humidity': data['current']['humidity'],
-...         'wind_speed': data['current']['wind_kph']
-...     }
+         <input type="text" id="city" placeholder="City">
+         <button id="getWeatherBtn">Get Weather</button>
+         <div id="weatherData"></div>
+         <div id="error"></div>
+     </div>
+     <script src="static/script.js"></script>
+ </body>
+ </html>
+     """
+ @app.route('/weather')
+ def get_weather():
+     city = request.args.get('city')
+     if not city:
+         return jsonify({'error': 'City parameter is missing'})
+ 
+     # Validate the city name using geopy
+     geolocator = Nominatim(user_agent="weather_app")
+     location = geolocator.geocode(city)
+     if not location:
+         return jsonify({'error': 'Invalid city name'})
+ 
+     # Make a request to WeatherAPI.com
+     response = requests.get(f'https://api.weatherapi.com/v1/current.json?key={API_KEY}&q={city}')
+ 
+     if response.status_code != 200:
+         return jsonify({'error': 'Failed to retrieve weather data'})
+ 
+     data = response.json()
+ 
+     if 'current' not in data or 'temp_c' not in data['current']:
+         return jsonify({'error': 'No weather information found for the city'})
+
+    # Extract relevant weather data
+     weather_data = {
+        'temperature': data['current']['temp_c'],
+         'conditions': data['current']['condition']['text'],
+         'humidity': data['current']['humidity'],
+         'wind_speed': data['current']['wind_kph']
+    }
 
     return jsonify(weather_data)
 
