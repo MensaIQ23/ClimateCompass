@@ -9,7 +9,7 @@ API_KEY = '61fdda5978b547f3bd2232525232309'
 @app.route('/')
 def index():
     return """
- <!DOCTYPE html>
+   <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -21,11 +21,15 @@ def index():
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
+        }
+        h1 {
             text-align: center;
+            margin-top: 20px;
         }
         .container {
             width: 50%;
             margin: 0 auto;
+            text-align: center;
             margin-top: 50px;
         }
         #city {
@@ -40,56 +44,54 @@ def index():
         #weatherData {
             margin-top: 20px;
         }
-        #error {
-            color: red;
-            margin-top: 10px;
-        }
     </style>
 </head>
 <body>
     <h1>Weather App</h1>
     <div class="container">
         <label for="city">Enter City: </label>
-         <input type="text" id="city" placeholder="City">
-         <button id="getWeatherBtn">Get Weather</button>
-         <div id="weatherData"></div>
-         <div id="error"></div>
-     </div>
-     <script src="static/script.js"></script>
- </body>
- </html>
-     """
+        <input type="text" id="city" placeholder="City">
+        <button id="getWeatherBtn">Get Weather</button>
+        <div id="weatherData"></div>
+    </div>
+    <script src="static/script.js"></script>
+</body>
+</html>
+    """
+
 @app.route('/weather')
- def get_weather():
-     city = request.args.get('city')
-     if not city:
-         return jsonify({'error': 'City parameter is missing'})
- 
-     # Validate the city name using geopy
-     geolocator = Nominatim(user_agent="weather_app")
-     location = geolocator.geocode(city)
-     if not location:
-         return jsonify({'error': 'Invalid city name'})
- 
-     # Make a request to WeatherAPI.com
-     response = requests.get(f'https://api.weatherapi.com/v1/current.json?key={API_KEY}&q={city}')
- 
-     if response.status_code != 200:
-         return jsonify({'error': 'Failed to retrieve weather data'})
- 
-     data = response.json()
- 
-     if 'current' not in data or 'temp_c' not in data['current']:
-         return jsonify({'error': 'No weather information found for the city'})
+def get_weather():
+    city = request.args.get('city')
+    if not city:
+        return jsonify({'error': 'City parameter is missing'})
+    
+    # Validate the city name using geopy
+    geolocator = Nominatim(user_agent="weather_app")
+    location = geolocator.geocode(city)
+    if not location:
+        return jsonify({'error': 'Invalid city name'})
+
+    # Make a request to WeatherAPI.com
+    response = requests.get(f'https://api.weatherapi.com/v1/current.json?key={API_KEY}&q={city}')
+
+    if response.status_code != 200:
+        return jsonify({'error': 'Failed to retrieve weather data'})
+
+    data = response.json()
+
+    if 'current' not in data or 'temp_c' not in data['current']:
+        return jsonify({'error': 'No weather information found for the city'})
 
     # Extract relevant weather data
-     weather_data = {
+    weather_data = {
         'temperature': data['current']['temp_c'],
-         'conditions': data['current']['condition']['text'],
-         'humidity': data['current']['humidity'],
-         'wind_speed': data['current']['wind_kph']
+        'conditions': data['current']['condition']['text'],
+        'humidity': data['current']['humidity'],
+        'wind_speed': data['current']['wind_kph']
     }
 
     return jsonify(weather_data)
 
 if __name__ == '__main__':
+    app.run(debug=True)
+
